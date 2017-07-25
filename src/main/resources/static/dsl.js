@@ -10,9 +10,11 @@ $(function () {
     $('#wotuTable').on('order.dt',
         function () {
             console.log('排序')
+            sloth.init()
         }).on('search.dt',
         function () {
             console.log('搜索')
+            sloth.init()
         }).on('page.dt',
         function () {
             console.log('翻页')

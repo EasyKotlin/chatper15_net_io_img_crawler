@@ -12,12 +12,37 @@ import java.util.regex.Pattern
  */
 
 object CrawImagesService {
-    fun doCraw(): List<String> {
-        val words = arrayOf("90后美女", "00后小美女", "嫩模", "性感", "诱惑", "清纯", "校花", "林允儿", "欧阳娜娜", "林允", "美女", "尤物")
+    fun doCraw(): String {
+        val words = arrayOf(
+                "国家地理摄影精品",
+                "震撼人心的摄影作品",
+                "世界金奖摄影作品",
+                "水彩画",
+                "手绘建筑设计",
+                "水墨画",
+                "油画",
+                "手绘森系小清新插画",
+                "设计作品欣赏",
+                "校花",
+                "欧阳娜娜",
+                "林允",
+                "尤物",
+                "美女",
+                "90后美女",
+                "00后小美女",
+                "嫩模",
+                "性感",
+                "诱惑",
+                "清纯"
+        )
+
         words.forEach {
-            CrawImagesService.writeImgUrls(it)
+            Thread({
+                CrawImagesService.writeImgUrls(it)
+            }).start()
         }
-        return KFileUtil.getFileLines(美女文件名)
+
+        return "任务已启动"
     }
 
 
@@ -46,15 +71,13 @@ object CrawImagesService {
             println("关键字：${word}")
             println("imgUrlQuery=${imgUrlQuery}")
             pn += 30
-            val imgUrlJson = File("imgs.json")
-            imgUrlJson.writeBytes(getUrlBytes(imgUrlQuery))
 
             val objImgUrlRegex = "\\{\"ObjURL\":(.+),\"FromURL\""
             val imgUrlJsonString = getUrlContent(imgUrlQuery)
             println(imgUrlJsonString)
 
             val p = Pattern.compile(objImgUrlRegex)
-            val lines = KFileUtil.getFileLines("imgs.json")
+            val lines = imgUrlJsonString.split("\n")
 
             lines.forEach {
                 val m = p.matcher(it)
@@ -66,7 +89,6 @@ object CrawImagesService {
                         val endIndex = result.indexOf("\",\"FromURL\"")
                         var imgUrl = result.substring(startIndex, endIndex)
                         imgUrl = imgUrl.replace("\\", "")
-                        println(imgUrl)
                         if (isOk(imgUrl)) {
                             KFileUtil.appendFile(imgUrl + "\n", 美女文件名)
                         }
@@ -80,16 +102,18 @@ object CrawImagesService {
     }
 
     fun isOk(imgUrl: String): Boolean {
+        println(imgUrl)
         val urlConnection = URL(imgUrl).openConnection() as HttpURLConnection
         urlConnection.connectTimeout = 1000
         val size = urlConnection.contentLength
-        println(size)
+        println("size=${size}")
         val responseCode = urlConnection.responseCode
+        println("responseCode=${responseCode}")
         val 美女文件 = File(美女文件名)
         if (!美女文件.exists()) {
             美女文件.createNewFile()
         }
         val 美女文件所有行 = KFileUtil.getFileLines(美女文件名)
-        return !美女文件所有行.contains(imgUrl) && size > 100 && responseCode == 200 && imgUrl.endsWith(".jpg")  // 重复的 url 不写
+        return !美女文件所有行.contains(imgUrl) && size > 100 && responseCode != 404 && imgUrl.endsWith(".jpg")  // 重复的 url 不写
     }
 }

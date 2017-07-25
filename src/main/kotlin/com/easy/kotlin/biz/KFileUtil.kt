@@ -4,6 +4,7 @@ import java.io.File
 import java.nio.charset.Charset
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.jvm.Synchronized
 
 /**
  * Created by jack on 2017/7/24.
@@ -50,7 +51,7 @@ object KFileUtil {
     /**
      * 末尾追加写文件
      */
-    fun appendFile(text: String, destFile: String) {
+    @Synchronized fun appendFile(text: String, destFile: String) {
         val f = File(destFile)
         if (!f.exists()) {
             f.createNewFile()
