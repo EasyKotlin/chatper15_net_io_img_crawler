@@ -15,7 +15,7 @@
     <script src="dsl.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -53,8 +53,7 @@
         </form>
     </div>
 </nav>
-<div class="container">
-
+<div class="container ipad">
     <table id="wotuTable" class="table">
         <thead>
         <tr>

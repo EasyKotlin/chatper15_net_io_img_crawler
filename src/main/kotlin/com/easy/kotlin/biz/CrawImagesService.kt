@@ -2,6 +2,7 @@ package com.easy.kotlin.biz
 
 import com.easy.kotlin.美女文件名
 import java.io.File
+import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.Charset
 import java.util.regex.Pattern
@@ -55,15 +56,6 @@ object CrawImagesService {
             val p = Pattern.compile(objImgUrlRegex)
             val lines = KFileUtil.getFileLines("imgs.json")
 
-            val 美女文件 = File(美女文件名)
-            if (!美女文件.exists()) {
-                美女文件.createNewFile()
-            }
-            val 美女文件所有行 = KFileUtil.getFileLines(美女文件名)
-            美女文件所有行.forEach({
-                println(it)
-            })
-
             lines.forEach {
                 val m = p.matcher(it)
                 while (m.find()) {
@@ -75,24 +67,29 @@ object CrawImagesService {
                         var imgUrl = result.substring(startIndex, endIndex)
                         imgUrl = imgUrl.replace("\\", "")
                         println(imgUrl)
-                        val urlConnection = URL(imgUrl).openConnection()
-                        urlConnection.connectTimeout = 1000
-                        val size = urlConnection.contentLength
-                        println(size)
-                        if (!美女文件所有行.contains(imgUrl) && size > 100 && imgUrl.endsWith(".jpg")) { // 重复的 url 不写
-                            // KFileUtil.首行插入写文件(imgUrl, 美女文件名)
-                            KFileUtil.appendFile(imgUrl, 美女文件名)
+                        if (isOk(imgUrl)) {
+                            KFileUtil.appendFile(imgUrl + "\n", 美女文件名)
                         }
 
                     } catch (ex: Exception) {
 
                     }
-
                 }
             }
-
         }
+    }
 
-
+    fun isOk(imgUrl: String): Boolean {
+        val urlConnection = URL(imgUrl).openConnection() as HttpURLConnection
+        urlConnection.connectTimeout = 1000
+        val size = urlConnection.contentLength
+        println(size)
+        val responseCode = urlConnection.responseCode
+        val 美女文件 = File(美女文件名)
+        if (!美女文件.exists()) {
+            美女文件.createNewFile()
+        }
+        val 美女文件所有行 = KFileUtil.getFileLines(美女文件名)
+        return !美女文件所有行.contains(imgUrl) && size > 100 && responseCode == 200 && imgUrl.endsWith(".jpg")  // 重复的 url 不写
     }
 }

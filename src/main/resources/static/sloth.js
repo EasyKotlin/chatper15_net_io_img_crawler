@@ -46,7 +46,7 @@
                     img.setAttribute("src", url)
                     img.setAttribute("width", "100%")
                     img.setAttribute("class", "img-rounded")
-                    img.setAttribute("alt", "Responsive image")
+                    img.setAttribute("alt", "WOTU image")
                     img.isload = true
                 }
             }
