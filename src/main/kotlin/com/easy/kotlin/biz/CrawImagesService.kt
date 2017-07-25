@@ -55,7 +55,6 @@ object CrawImagesService {
             val p = Pattern.compile(objImgUrlRegex)
             val lines = KFileUtil.getFileLines("imgs.json")
 
-            val 美女文件名 = "美女.url"
             val 美女文件 = File(美女文件名)
             if (!美女文件.exists()) {
                 美女文件.createNewFile()
@@ -81,7 +80,8 @@ object CrawImagesService {
                         val size = urlConnection.contentLength
                         println(size)
                         if (!美女文件所有行.contains(imgUrl) && size > 100 && imgUrl.endsWith(".jpg")) { // 重复的 url 不写
-                            KFileUtil.首行插入写文件(imgUrl, 美女文件名)
+                            // KFileUtil.首行插入写文件(imgUrl, 美女文件名)
+                            KFileUtil.appendFile(imgUrl, 美女文件名)
                         }
 
                     } catch (ex: Exception) {

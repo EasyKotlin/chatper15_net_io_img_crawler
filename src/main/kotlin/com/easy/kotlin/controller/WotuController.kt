@@ -15,7 +15,7 @@ class WotuController {
 
     @GetMapping(value = *arrayOf("wotu", "/"))
     fun wotu(model: Model): ModelAndView {
-        model.addAttribute("imageUrls", CrawImagesService.getImageUrls())
+        model.addAttribute("imageUrls", CrawImagesService.getImageUrls().reversed())
         return ModelAndView("wotu")
     }
 
