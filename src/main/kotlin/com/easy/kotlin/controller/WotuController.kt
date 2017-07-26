@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.servlet.ModelAndView
+import java.util.*
 
 /**
  * Created by jack on 2017/7/22.
@@ -15,7 +16,10 @@ class WotuController {
 
     @GetMapping(value = *arrayOf("wotu", "/"))
     fun wotu(model: Model): ModelAndView {
-        model.addAttribute("imageUrls", CrawImagesService.getImageUrls().reversed())
+//        model.addAttribute("imageUrls", CrawImagesService.getImageUrls().reversed())
+        var list = CrawImagesService.getImageUrls()
+        Collections.shuffle(list) // Randomly permutes the list
+        model.addAttribute("imageUrls", list)
         return ModelAndView("wotu")
     }
 
