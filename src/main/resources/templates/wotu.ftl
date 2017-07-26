@@ -27,6 +27,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="wotu">图片列表 <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="doCraw">执行抓取 <span class="sr-only">(current)</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="http://www.jianshu.com/nb/12976878" target="_blank">Kotlin极简教程</a>
             </li>
@@ -67,7 +70,7 @@
             <#assign index="${url_index+1}"/>
         <tr>
             <td width="10%">${index}</td>
-            <td width="90%"><img sloth-img="${url}"></td>
+            <td width="90%"><a href="${url}" target="_blank"><img sloth-img="${url}"></a></td>
         </tr>
         </#list>
         </tbody>

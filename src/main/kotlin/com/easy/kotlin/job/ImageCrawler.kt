@@ -11,9 +11,10 @@ import java.util.*
 @Component
 class ImageCrawler {
 
-    @Scheduled(fixedDelay = 1000 * 60 * 1)
+    @Scheduled(fixedDelay = 1000 * 60 * 10)
     fun job() {
         println("开始执行定时任务： ${Date()}")
-        CrawImagesService.doCraw()
+//        CrawImagesService.doCraw()
+        CrawImagesService.doCraw2()
     }
 }

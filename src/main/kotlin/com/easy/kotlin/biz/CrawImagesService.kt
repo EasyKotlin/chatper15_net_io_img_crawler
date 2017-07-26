@@ -1,6 +1,10 @@
 package com.easy.kotlin.biz
 
 import com.easy.kotlin.我图URL文件名
+import com.easy.kotlin.搜索关键词列表
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
 import java.net.URL
 import java.nio.charset.Charset
@@ -13,38 +17,20 @@ import kotlin.concurrent.thread
 
 object CrawImagesService {
     fun doCraw(): String {
-        val words = arrayOf(
-                "孙允珠",
-                "朱韵淇",
-                "孙文婷",
-                "李麦文",
-                "陈玟予",
-                "申善雅",
-                "李梦皎",
-                "燕子沁",
-                "马艺文",
-                "手绘森系小清新插画",
-                "水彩画",
-                "手绘建筑设计",
-                "油画",
-                "国家地理摄影精品",
-                "震撼人心的摄影作品",
-                "世界金奖摄影作品",
-                "设计作品欣赏",
-                "校花",
-                "欧阳娜娜",
-                "90后美女",
-                "00后小美女",
-                "清纯美女"
-        )
-
-        words.forEach {
+        搜索关键词列表.forEach {
             thread(start = true) {
                 CrawImagesService.writeImgUrls(it)
             }
         }
-
         return "任务已启动"
+    }
+
+    fun doCraw2() = runBlocking {
+        搜索关键词列表.forEach {
+            launch(CommonPool) {
+                CrawImagesService.writeImgUrls(it)
+            }
+        }
     }
 
 
@@ -69,7 +55,7 @@ object CrawImagesService {
     fun writeImgUrls(word: String) {
         var pn = 30
         for (i in 1..10) {
-            val imgUrlQuery = "http://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord=${word}C&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=&z=&ic=&word=${word}&s=&se=&tab=&width=&height=&face=&istype=&qc=&nc=1&fr=&pn=${pn}&rn=30&gsm=1e&1500950950035="
+            val imgUrlQuery = "http://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord=${word}&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=&z=3&ic=&word=${word}&s=&se=&tab=&width=0&height=0&face=&istype=&qc=&nc=&fr=&pn=${pn}&rn=30&gsm=b4&1501086462487="
             println("关键字：${word}")
             println("imgUrlQuery=${imgUrlQuery}")
             pn += 30
@@ -115,7 +101,9 @@ object CrawImagesService {
         return !美女文件所有行.contains(imgUrl) // 重复的 url 不写
                 && imgUrl.endsWith(".jpg")
                 && !imgUrl.contains("baidu.com/")
-                && !imgUrl.contains("126.net/")
+                && !imgUrl.contains("126.net")
                 && !imgUrl.contains("pconline.com")
+                && !imgUrl.contains("nipic.com")
+                && !imgUrl.contains("zol.com")
     }
 }

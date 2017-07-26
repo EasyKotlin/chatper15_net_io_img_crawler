@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 class CrawImageController {
     @GetMapping("doCraw")
     @ResponseBody
-    fun doCraw(): String {
-        return CrawImagesService.doCraw()
+    fun doCraw() {
+        CrawImagesService.doCraw2()
     }
 }
