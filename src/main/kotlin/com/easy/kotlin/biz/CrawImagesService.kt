@@ -1,6 +1,6 @@
 package com.easy.kotlin.biz
 
-import com.easy.kotlin.美女文件名
+import com.easy.kotlin.我图URL文件名
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
@@ -60,7 +60,7 @@ object CrawImagesService {
     }
 
     fun getImageUrls(): List<String> {
-        return KFileUtil.getFileLines(美女文件名)
+        return KFileUtil.getFileLines(我图URL文件名)
     }
 
 
@@ -90,7 +90,7 @@ object CrawImagesService {
                         var imgUrl = result.substring(startIndex, endIndex)
                         imgUrl = imgUrl.replace("\\", "")
                         if (isOk(imgUrl)) {
-                            KFileUtil.appendFile(imgUrl + "\n", 美女文件名)
+                            KFileUtil.appendFile(imgUrl + "\n", 我图URL文件名)
                         }
 
                     } catch (ex: Exception) {
@@ -109,11 +109,11 @@ object CrawImagesService {
         println("size=${size}")
         val responseCode = urlConnection.responseCode
         println("responseCode=${responseCode}")
-        val 美女文件 = File(美女文件名)
-        if (!美女文件.exists()) {
-            美女文件.createNewFile()
+        val 我图文件 = File(我图URL文件名)
+        if (!我图文件.exists()) {
+            我图文件.createNewFile()
         }
-        val 美女文件所有行 = KFileUtil.getFileLines(美女文件名)
+        val 美女文件所有行 = KFileUtil.getFileLines(我图URL文件名)
         return !美女文件所有行.contains(imgUrl) && size > 100 && responseCode != 404 && imgUrl.endsWith(".jpg")  // 重复的 url 不写
     }
 }

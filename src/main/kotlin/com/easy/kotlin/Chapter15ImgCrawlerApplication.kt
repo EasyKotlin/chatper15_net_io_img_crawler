@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.scheduling.annotation.EnableScheduling
 
-val 美女文件名 = "美女.url"
+val 我图URL文件名 = "我图.url"
 
 @SpringBootApplication
 @EnableScheduling
