@@ -2,7 +2,6 @@ package com.easy.kotlin.biz
 
 import com.easy.kotlin.我图URL文件名
 import java.io.File
-import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.Charset
 import java.util.regex.Pattern
@@ -14,26 +13,28 @@ import java.util.regex.Pattern
 object CrawImagesService {
     fun doCraw(): String {
         val words = arrayOf(
+                "孙允珠",
+                "朱韵淇",
+                "孙文婷",
+                "李麦文",
+                "陈玟予",
+                "申善雅",
+                "李梦皎",
+                "燕子沁",
+                "马艺文",
+                "手绘森系小清新插画",
+                "水彩画",
+                "手绘建筑设计",
+                "油画",
                 "国家地理摄影精品",
                 "震撼人心的摄影作品",
                 "世界金奖摄影作品",
-                "水彩画",
-                "手绘建筑设计",
-                "水墨画",
-                "油画",
-                "手绘森系小清新插画",
                 "设计作品欣赏",
                 "校花",
                 "欧阳娜娜",
-                "林允",
-                "尤物",
-                "美女",
                 "90后美女",
                 "00后小美女",
-                "嫩模",
-                "性感",
-                "诱惑",
-                "清纯"
+                "清纯美女"
         )
 
         words.forEach {
@@ -103,17 +104,21 @@ object CrawImagesService {
 
     fun isOk(imgUrl: String): Boolean {
         println(imgUrl)
-        val urlConnection = URL(imgUrl).openConnection() as HttpURLConnection
-        urlConnection.connectTimeout = 1000
-        val size = urlConnection.contentLength
-        println("size=${size}")
-        val responseCode = urlConnection.responseCode
-        println("responseCode=${responseCode}")
+//        val urlConnection = URL(imgUrl).openConnection() as HttpURLConnection
+//        urlConnection.connectTimeout = 1000
+//        val size = urlConnection.contentLength
+//        println("size=${size}")
+//        val responseCode = urlConnection.responseCode
+//        println("responseCode=${responseCode}")
         val 我图文件 = File(我图URL文件名)
         if (!我图文件.exists()) {
             我图文件.createNewFile()
         }
         val 美女文件所有行 = KFileUtil.getFileLines(我图URL文件名)
-        return !美女文件所有行.contains(imgUrl) && size > 100 && responseCode != 404 && imgUrl.endsWith(".jpg")  // 重复的 url 不写
+        return !美女文件所有行.contains(imgUrl) // 重复的 url 不写
+                && imgUrl.endsWith(".jpg")
+                && !imgUrl.contains("baidu.com/")
+                && !imgUrl.contains("126.net/")
+                && !imgUrl.contains("pconline.com")
     }
 }

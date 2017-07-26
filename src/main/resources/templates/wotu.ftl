@@ -63,6 +63,7 @@
         </thead>
         <tbody>
         <#list imageUrls as url>
+            <#setting number_format="#">
             <#assign index="${url_index+1}"/>
         <tr>
             <td width="10%">${index}</td>
