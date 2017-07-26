@@ -28,7 +28,7 @@
                 <a class="nav-link" href="wotu">图片列表 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="doCraw">执行抓取 <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="doCraw" target="_blank">执行抓取 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="http://www.jianshu.com/nb/12976878" target="_blank">Kotlin极简教程</a>
