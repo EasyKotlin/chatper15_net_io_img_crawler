@@ -60,6 +60,20 @@ object KFileUtil {
     }
 
     /**
+     * 末尾追加写文件
+     */
+    fun appendFileSync(text: String, destFile: String) {
+        val f = File(destFile)
+        if (!f.exists()) {
+            f.createNewFile()
+        }
+
+        synchronized(this){
+            f.appendText(text, Charset.defaultCharset())
+        }
+    }
+
+    /**
      * 首行插入写文件
      */
     fun 首行插入写文件(text: String, destFile: String) {

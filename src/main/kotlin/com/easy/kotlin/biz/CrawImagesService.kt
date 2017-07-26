@@ -5,6 +5,7 @@ import java.io.File
 import java.net.URL
 import java.nio.charset.Charset
 import java.util.regex.Pattern
+import kotlin.concurrent.thread
 
 /**
  * Created by jack on 2017/7/25.
@@ -38,9 +39,9 @@ object CrawImagesService {
         )
 
         words.forEach {
-            Thread({
+            thread(start = true) {
                 CrawImagesService.writeImgUrls(it)
-            }).start()
+            }
         }
 
         return "任务已启动"
@@ -79,11 +80,9 @@ object CrawImagesService {
 
             val p = Pattern.compile(objImgUrlRegex)
             val lines = imgUrlJsonString.split("\n")
-
             lines.forEach {
                 val m = p.matcher(it)
                 while (m.find()) {
-
                     try {
                         val result = m.group()
                         val startIndex = result.indexOf("{\"ObjURL\":\"") + "{\"ObjURL\":\"".length
@@ -93,9 +92,7 @@ object CrawImagesService {
                         if (isOk(imgUrl)) {
                             KFileUtil.appendFile(imgUrl + "\n", 我图URL文件名)
                         }
-
                     } catch (ex: Exception) {
-
                     }
                 }
             }
