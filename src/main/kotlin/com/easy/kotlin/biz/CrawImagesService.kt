@@ -1,36 +1,75 @@
 package com.easy.kotlin.biz
 
+import com.easy.kotlin.chapter11_kotlin_springboot.dao.ImageRepository
+import com.easy.kotlin.chapter11_kotlin_springboot.entity.Image
 import com.easy.kotlin.我图URL文件名
 import com.easy.kotlin.搜索关键词列表
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import java.io.File
 import java.net.URL
 import java.nio.charset.Charset
+import java.util.*
 import java.util.regex.Pattern
-import kotlin.concurrent.thread
 
 /**
  * Created by jack on 2017/7/25.
  */
+@Service
+class CrawImagesService {
+    @Autowired val ImageRepository: ImageRepository? = null
 
-object CrawImagesService {
-    fun doCraw(): String {
-        搜索关键词列表.forEach {
-            thread(start = true) {
-                CrawImagesService.writeImgUrls(it)
-            }
-        }
-        return "任务已启动"
-    }
-
-    fun doCraw2() = runBlocking {
+    fun doCraw() = runBlocking {
         搜索关键词列表.forEach {
             launch(CommonPool) {
-                CrawImagesService.writeImgUrls(it)
+                writeBaiduImgUrlsToDB(it)
             }
         }
+    }
+
+
+    fun writeBaiduImgUrlsToDB(word: String) {
+        var pn = 30
+        for (i in 1..10) {
+            val imgUrlQuery = "http://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord=${word}&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=&z=3&ic=&word=${word}&s=&se=&tab=&width=0&height=0&face=&istype=&qc=&nc=&fr=&pn=${pn}&rn=30&gsm=b4&1501086462487="
+            println("关键字：${word}")
+            println("imgUrlQuery=${imgUrlQuery}")
+            pn += 30
+            val regex = "\\{\"ObjURL\":(.+),\"FromURL\"".toRegex()
+            val imgjson = getUrlContent(imgUrlQuery)
+            regex.findAll(imgjson).forEach {
+                try {
+                    val result = it.value
+                    val startIndex = result.indexOf("{\"ObjURL\":\"") + "{\"ObjURL\":\"".length
+                    val endIndex = result.indexOf("\",\"FromURL\"")
+                    var imgUrl = result.substring(startIndex, endIndex)
+                    imgUrl = imgUrl.replace("\\", "")
+                    if (passFilter(imgUrl)) {
+                        // Write to DB
+                        val image = Image()
+                        image.category = word
+                        image.url = imgUrl
+                        if (ImageRepository?.countByUrl(imgUrl)!! < 1) {
+                            ImageRepository?.save(image)
+                        }
+                    }
+                } catch(ex: Exception) {
+                }
+            }
+        }
+    }
+
+    fun passFilter(imgUrl: String): Boolean {
+        println(imgUrl)
+        return imgUrl.endsWith(".jpg")
+                && !imgUrl.contains("baidu.com/")
+                && !imgUrl.contains("126.net")
+                && !imgUrl.contains("pconline.com")
+                && !imgUrl.contains("nipic.com")
+                && !imgUrl.contains("zol.com")
     }
 
 
@@ -85,6 +124,7 @@ object CrawImagesService {
         }
     }
 
+
     fun isOk(imgUrl: String): Boolean {
         println(imgUrl)
 //        val urlConnection = URL(imgUrl).openConnection() as HttpURLConnection
@@ -106,4 +146,6 @@ object CrawImagesService {
                 && !imgUrl.contains("nipic.com")
                 && !imgUrl.contains("zol.com")
     }
+
+
 }

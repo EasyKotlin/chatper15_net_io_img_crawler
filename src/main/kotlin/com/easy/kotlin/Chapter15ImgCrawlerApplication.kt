@@ -3,11 +3,19 @@ package com.easy.kotlin
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.scheduling.annotation.EnableScheduling
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer
+
+
 
 
 @SpringBootApplication
 @EnableScheduling
-class Chapter15ImgCrawlerApplication
+class Chapter15ImgCrawlerApplication: WebMvcConfigurerAdapter() {
+    override fun configureContentNegotiation(config: ContentNegotiationConfigurer?) {
+        config!!.favorPathExtension(true)
+    }
+}
 
 fun main(args: Array<String>) {
     SpringApplication.run(Chapter15ImgCrawlerApplication::class.java, *args)
