@@ -23,6 +23,7 @@ fun main(args: Array<String>) {
 
 val 我图URL文件名 = "我图.url"
 val 百度搜索关键词列表 = arrayOf(
+        "文艺美女",
         "美女",
         "清纯",
         "清纯性感",

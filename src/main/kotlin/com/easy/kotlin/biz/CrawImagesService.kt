@@ -3,7 +3,6 @@ package com.easy.kotlin.biz
 import com.easy.kotlin.chapter11_kotlin_springboot.dao.ImageRepository
 import com.easy.kotlin.chapter11_kotlin_springboot.entity.Image
 import com.easy.kotlin.我图URL文件名
-import com.easy.kotlin.搜狗关键词列表
 import com.easy.kotlin.百度搜索关键词列表
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
@@ -25,15 +24,9 @@ class CrawImagesService {
     fun doCraw() = runBlocking {
         百度搜索关键词列表.forEach {
             launch(CommonPool) {
-                //writeBaiduImgUrlsToDB(it)
+                writeBaiduImgUrlsToDB(it)
             }
         }
-
-//        搜狗关键词列表.forEach {
-//            launch(CommonPool) {
-//                writeSogouImgUrlsToDB(it)
-//            }
-//        }
     }
 
 
@@ -185,7 +178,6 @@ class CrawImagesService {
                 && !imgUrl.contains("nipic.com")
                 && !imgUrl.contains("zol.com")
     }
-
 
 
 }
