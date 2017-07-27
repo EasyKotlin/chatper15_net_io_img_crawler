@@ -3,7 +3,8 @@ package com.easy.kotlin.biz
 import com.easy.kotlin.chapter11_kotlin_springboot.dao.ImageRepository
 import com.easy.kotlin.chapter11_kotlin_springboot.entity.Image
 import com.easy.kotlin.我图URL文件名
-import com.easy.kotlin.搜索关键词列表
+import com.easy.kotlin.搜狗关键词列表
+import com.easy.kotlin.百度搜索关键词列表
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service
 import java.io.File
 import java.net.URL
 import java.nio.charset.Charset
-import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -23,11 +23,17 @@ class CrawImagesService {
     @Autowired val ImageRepository: ImageRepository? = null
 
     fun doCraw() = runBlocking {
-        搜索关键词列表.forEach {
+        百度搜索关键词列表.forEach {
             launch(CommonPool) {
-                writeBaiduImgUrlsToDB(it)
+                //writeBaiduImgUrlsToDB(it)
             }
         }
+
+//        搜狗关键词列表.forEach {
+//            launch(CommonPool) {
+//                writeSogouImgUrlsToDB(it)
+//            }
+//        }
     }
 
 
@@ -51,6 +57,39 @@ class CrawImagesService {
                         // Write to DB
                         val image = Image()
                         image.category = word
+                        image.url = imgUrl
+                        if (ImageRepository?.countByUrl(imgUrl)!! < 1) {
+                            ImageRepository?.save(image)
+                        }
+                    }
+                } catch(ex: Exception) {
+                }
+            }
+        }
+    }
+
+    fun writeSogouImgUrlsToDB(category: String) {
+        var start = 0
+        var len = 20
+        for (i in 1..10) {
+            val imgUrlQuery = "http://pic.sogou.com/pics/channel/getAllRecomPicByTag.jsp?category=${category}&tag=全部&start=${start}&len=${len}"
+            println("imgUrlQuery=${imgUrlQuery}")
+            start += len
+            // "ori_pic_url":"(.+)","ext_url"
+            val regex = "\"ori_pic_url\":\"(.+)\",\"ext_url\"".toRegex()
+            val imgjson = getUrlContent(imgUrlQuery)
+            println(imgjson)
+            regex.findAll(imgjson).forEach {
+                try {
+                    val result = it.value
+                    val startIndex = result.indexOf("\"ori_pic_url\":\"") + "\"ori_pic_url\":\"".length
+                    val endIndex = result.indexOf("\",\"ext_url\"")
+                    var imgUrl = result.substring(startIndex, endIndex)
+                    println("writeSogouImgUrlsToDB: ${imgUrl}")
+                    if (passFilter(imgUrl)) {
+                        // Write to DB
+                        val image = Image()
+                        image.category = category
                         image.url = imgUrl
                         if (ImageRepository?.countByUrl(imgUrl)!! < 1) {
                             ImageRepository?.save(image)
@@ -148,4 +187,11 @@ class CrawImagesService {
     }
 
 
+
 }
+
+//fun main(args: Array<String>) {
+//    val url = "http://pic.sogou.com/pics/channel/getAllRecomPicByTag.jsp?category=美女&tag=全部&start=0&len=20"
+//    val c = CrawImagesService().getUrlContent(url)
+//    println(c)
+//}

@@ -89,11 +89,11 @@
         <#assign last = pageResult.last>
         <#if first>
             <li class="page-item">
-                <a class="page-link" href="#">Previous</a>
+                <a class="page-link" href="#">上一页</a>
             </li>
         <#else>
             <li class="page-item">
-                <a class="page-link" href="wotuView?page=${number-1}&size=20">Previous</a>
+                <a class="page-link" href="wotuView?page=${number-1}&size=20">上一页</a>
             </li>
         </#if>
 
@@ -136,11 +136,11 @@
 
         <#if last>
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <a class="page-link" href="#">下一页</a>
             </li>
         <#else>
             <li class="page-item">
-                <a class="page-link" href="wotuView?page=${number+1}&size=20">Previous</a>
+                <a class="page-link" href="wotuView?page=${number+1}&size=20">下一页</a>
             </li>
         </#if>
         </ul>

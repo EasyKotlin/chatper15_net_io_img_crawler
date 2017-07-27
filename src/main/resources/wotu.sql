@@ -1,1 +1,8 @@
 CREATE SCHEMA `wotu` DEFAULT CHARACTER SET utf8 ;
+
+ALTER TABLE `wotu`.`image`
+CHANGE COLUMN `url` `url` VARCHAR(255) NOT NULL ,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`id`, `url`),
+ADD INDEX `url` USING BTREE (`id` ASC, `url` ASC);
+

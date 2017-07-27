@@ -22,7 +22,7 @@ fun main(args: Array<String>) {
 }
 
 val 我图URL文件名 = "我图.url"
-val 搜索关键词列表 = arrayOf(
+val 百度搜索关键词列表 = arrayOf(
         "美女",
         "清纯",
         "清纯性感",
@@ -54,5 +54,12 @@ val 搜索关键词列表 = arrayOf(
         "90后美女",
         "00后小美女",
         "清纯美女"
+)
+
+val 搜狗关键词列表 = arrayOf(
+        "美女",
+        "艺术云图",
+        "壁纸",
+        "家居"
 )
 
