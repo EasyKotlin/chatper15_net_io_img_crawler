@@ -3,6 +3,10 @@
 <head>
     <meta http-equiv=content-type content=text/html;charset=utf-8>
     <meta http-equiv=X-UA-Compatible content=IE=Edge>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>我图</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
@@ -57,12 +61,12 @@
         </form>
     </div>
 </nav>
-<div class="container ipad">
-    <table id="wotuTable" class="table">
-        <thead>
+<div class="container">
+    <table id="wotuTable" class="table table-striped table-responsive">
+        <thead class="thead">
         <tr>
             <th width="5%">序号</th>
-            <th width="5%">分类</th>
+            <th width="8%">分类</th>
             <th width="90%">图列</th>
         </tr>
         </thead>
@@ -70,9 +74,9 @@
         <#setting number_format="#">
         <#list pageResult.content as content>
         <tr>
-            <td width="5%">${content.id}</td>
-            <td width="5%">${content.category}</td>
-            <td width="90%"><a href="${content.url}" target="_blank"><img sloth-img="${content.url}"></a></td>
+            <td>${content.id}</td>
+            <td>${content.category}</td>
+            <td><a href="${content.url}" target="_blank"><img sloth-img="${content.url}"></a></td>
         </tr>
         </#list>
         </tbody>
@@ -186,6 +190,25 @@
         </ul>
         <div class="center">总共 ${totalPages} 页， ${totalElements} 条记录</div>
     </nav>
+    <script>
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 38 || e && e.keyCode == 37) {//上,左
+
+                if (${number}>
+                0
+            )
+                {
+                    // 上一页
+                    location.href = "wotuView?page=${number-1}&size=20"
+                }
+            }
+            if (e && e.keyCode == 40 || e && e.keyCode == 39) {//下,右
+                // 下一页
+                location.href = "wotuView?page=${number+1}&size=20"
+            }
+        };
+    </script>
 
 </div>
 </body>

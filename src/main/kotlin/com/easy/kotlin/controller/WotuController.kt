@@ -31,7 +31,7 @@ class WotuController {
         return getPageResult(page, size)
     }
 
-    @RequestMapping(value = "wotuView", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = *arrayOf("", "/", "wotuView"), method = arrayOf(RequestMethod.GET))
     fun wotuView(@RequestParam(value = "page", defaultValue = "0", required = false) page: Int,
                  @RequestParam(value = "size", defaultValue = "10", required = false) size: Int,
                  model: Model): ModelAndView {

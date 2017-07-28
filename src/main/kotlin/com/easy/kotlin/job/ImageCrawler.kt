@@ -12,7 +12,7 @@ import java.util.*
 @Component
 class ImageCrawler {
     @Autowired val CrawImagesService: CrawImagesService? = null
-    @Scheduled(fixedDelay = 1000 * 60 * 10)
+    @Scheduled(fixedDelay = 1000 * 60 * 60)
     fun job() {
         println("开始执行定时任务： ${Date()}")
         CrawImagesService?.doCraw()
