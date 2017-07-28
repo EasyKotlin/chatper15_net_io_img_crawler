@@ -67,8 +67,8 @@
         </tr>
         </thead>
         <tbody>
+        <#setting number_format="#">
         <#list pageResult.content as content>
-            <#setting number_format="#">
         <tr>
             <td width="5%">${content.id}</td>
             <td width="5%">${content.category}</td>
@@ -79,7 +79,7 @@
     </table>
 
     <hr>
-<#--http://v4-alpha.getbootstrap.com/components/pagination/-->
+<#-- 表格服务端分页：完美简单实现 http://v4-alpha.getbootstrap.com/components/pagination/-->
     <nav aria-label="Page navigation">
         <ul class="pagination pagination-lg  justify-content-center">
         <#assign totalPages = pageResult.totalPages>
@@ -87,6 +87,7 @@
         <#assign number = pageResult.number>
         <#assign first = pageResult.first>
         <#assign last = pageResult.last>
+        <#--上一页-->
         <#if first>
             <li class="page-item">
                 <a class="page-link" href="#">上一页</a>
@@ -97,8 +98,25 @@
             </li>
         </#if>
 
-        <#list 1..totalPages-1 as pageIndex>
-            <#if pageIndex < 5>
+        <#--小于等于10页全部显示-->
+        <#if totalPages <= 10>
+            <#list 1..totalPages as pageIndex>
+                <#if number == pageIndex>
+                    <li class="page-item active">
+                        <a class="page-link" href="wotuView?page=${pageIndex}&size=20">${pageIndex}</a>
+                    </li>
+                <#else>
+                    <li class="page-item active">
+                        <a class="page-link" href="wotuView?page=${pageIndex}&size=20">${pageIndex}</a>
+                    </li>
+                </#if>
+            </#list>
+        </#if>
+
+        <#--大于10页：显示前5页，最后3页，中间用 ...-->
+        <#if totalPages gt 10>
+        <#--显示前5页-->
+            <#list 1..5 as pageIndex>
                 <#if number == pageIndex>
                     <li class="page-item active">
                         <a class="page-link" href="wotuView?page=${pageIndex}&size=20">${pageIndex}</a>
@@ -108,32 +126,54 @@
                         <a class="page-link" href="wotuView?page=${pageIndex}&size=20">${pageIndex}</a>
                     </li>
                 </#if>
+            </#list>
+
+        <#--中间部分的显示 ...  number: currentPage, 区间逻辑的判断-->
+            <#if number == 6 >
+                <li class="page-item active">
+                    <a class="page-link" href="wotuView?page=${number}&size=20">${number}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            <#elseif number == totalPages-3>
+                <li class="page-item">
+                    <a class="page-link" href="#">...</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="wotuView?page=${number}&size=20">${number}</a>
+                </li>
+            <#elseif number gt 6 && number lt totalPages-3>
+                <li class="page-item">
+                    <a class="page-link" href="#">...</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="wotuView?page=${number}&size=20">${number}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            <#else>
+                <li class="page-item">
+                    <a class="page-link" href="#">...</a>
+                </li>
             </#if>
 
-            <#if 5 <= pageIndex >
-                <#if pageIndex==number >
+        <#--显示最后3页-->
+            <#list totalPages-2..totalPages as pageIndex>
+                <#if number == pageIndex>
                     <li class="page-item active">
                         <a class="page-link" href="wotuView?page=${pageIndex}&size=20">${pageIndex}</a>
                     </li>
+                <#else>
+                    <li class="page-item">
+                        <a class="page-link" href="wotuView?page=${pageIndex}&size=20">${pageIndex}</a>
+                    </li>
                 </#if>
-            </#if>
-
-        </#list>
-
-            <li class="page-item">
-                <a class="page-link" href="#">...</a>
-            </li>
-
-        <#if number==totalPages>
-            <li class="page-item active">
-                <a class="page-link" href="wotuView?page=${totalPages}&size=20">${totalPages}</a>
-            </li>
-        <#else>
-            <li class="page-item">
-                <a class="page-link" href="wotuView?page=${totalPages}&size=20">${totalPages}</a>
-            </li>
+            </#list>
         </#if>
 
+        <#--下一页-->
         <#if last>
             <li class="page-item">
                 <a class="page-link" href="#">下一页</a>
