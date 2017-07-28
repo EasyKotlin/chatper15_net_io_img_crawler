@@ -24,6 +24,9 @@ fun main(args: Array<String>) {
 val 我图URL文件名 = "我图.url"
 val 百度搜索关键词列表 = arrayOf(
         "最美网红",
+        "美女校花",
+        "高中校花",
+        "大学校花",
         "SNH48黄婷婷",
         "snh48李艺彤",
         "snh48",
