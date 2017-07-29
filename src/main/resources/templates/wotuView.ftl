@@ -193,10 +193,7 @@
     document.onkeydown = function (event) {
         var e = event || window.event || arguments.callee.caller.arguments[0];
         if (e && e.keyCode == 38 || e && e.keyCode == 37) {//上,左
-            if (${number}>
-            0
-        )
-            {
+            if (${number}>0){
                 // 上一页
                 location.href = "wotuView?page=${number-1}&size=20"
             }
