@@ -84,7 +84,7 @@
 <hr>
 <#-- 表格服务端分页：完美简单实现 http://v4-alpha.getbootstrap.com/components/pagination/-->
 <nav aria-label="Page navigation">
-    <ul class="pagination pagination-lg  justify-content-center">
+    <ul class="pagination pagination-sm  justify-content-center">
     <#assign totalPages = pageResult.totalPages>
     <#assign totalElements = pageResult.totalElements>
     <#assign number = pageResult.number>
