@@ -1,41 +1,38 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">我图</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="meituView">图片列表 <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="doCraw" target="_blank">执行抓取 <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="http://www.jianshu.com/nb/12976878" target="_blank">Kotlin极简教程</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="hello" target="_blank">极简百度首页</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="responsiveNavbarDropdown" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Dropdown</a>
-
-                <div class="dropdown-menu" aria-labelledby="responsiveNavbarDropdown">
-                    <a class="dropdown-item" href="#">Java</a>
-                    <a class="dropdown-item" href="#">Scala</a>
-                    <a class="dropdown-item" href="#">Groovy</a>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">我图</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="meituView">美图列表</a></li>
+                <li class=""><a href="doCraw" target="_blank">执行抓取</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Kotlin极简教程 <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://www.jianshu.com/nb/12976878" target="_blank">Kotlin</a></li>
+                        <li><a href="#">SpringBoot</a></li>
+                        <li><a href="#">Java</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Scala</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Groovy</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">关于</a>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">关于</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+        </div>
     </div>
 </nav>
+
+
