@@ -73,16 +73,19 @@ $(function () {
     })
 
 
-    // 键盘翻页事件
-    var e = event || window.event || arguments.callee.caller.arguments[0];
-    if (e && e.keyCode == 38 || e && e.keyCode == 37) {//上,左
-        // 上一页
-        $('.page-pre').click()
-    }
-    if (e && e.keyCode == 40 || e && e.keyCode == 39) {//下,右
-        // 下一页
-        $('.page-next').click()
-    }
+    $(document).on('keydown', function (event) {
+        // 键盘翻页事件
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 38 || e && e.keyCode == 37) {//上,左
+            // 上一页
+            $('.page-pre').click()
+        }
+        if (e && e.keyCode == 40 || e && e.keyCode == 39) {//下,右
+            // 下一页
+            $('.page-next').click()
+        }
+
+    })
 
     // 默认加载body体全部sloth图片
     var sloth = new Sloth()
