@@ -39,6 +39,13 @@ class WotuController {
         return ModelAndView("wotuView")
     }
 
+
+    @RequestMapping(value = "meituView", method = arrayOf(RequestMethod.GET))
+    fun meituView(): ModelAndView {
+        return ModelAndView("meituView")
+    }
+
+
     private fun getPageResult(page: Int, size: Int): Page<Image>? {
         val sort = Sort(Sort.Direction.DESC, "id")
         val pageable = PageRequest(page, size, sort)
