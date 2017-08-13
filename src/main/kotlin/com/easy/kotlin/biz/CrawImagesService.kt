@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service
 import java.io.File
 import java.net.URL
 import java.nio.charset.Charset
+import java.util.*
 
 /**
  * Created by jack on 2017/7/25.
@@ -20,6 +21,8 @@ class CrawImagesService {
     @Autowired val ImageRepository: ImageRepository? = null
 
     fun doCraw() = runBlocking {
+        // Randomly permutes the specified list
+        Collections.shuffle(百度搜索关键词列表)
         百度搜索关键词列表.forEach {
             launch(CommonPool) {
                 writeBaiduImgUrlsToDB(it)

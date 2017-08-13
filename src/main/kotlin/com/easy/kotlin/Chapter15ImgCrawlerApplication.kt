@@ -21,4 +21,4 @@ fun main(args: Array<String>) {
 }
 
 
-val 百度搜索关键词列表 = File("百度搜索关键词列表.data").readLines()
+var 百度搜索关键词列表 = File("百度搜索关键词列表.data").readLines()
