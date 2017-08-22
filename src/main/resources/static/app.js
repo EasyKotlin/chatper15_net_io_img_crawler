@@ -32,7 +32,7 @@ $(function () {
         align: 'center',
         valign: 'middle',
         formatter: function (value, row, index) {
-            return "<a target='_blank' class='full-width' href='" + value + "'><img src='" + value + "'></a>"
+            return "<a target='_blank' class='full-width' href='" + value + "'><img width='100%' src='" + value + "'></a>"
         }
     })
 
