@@ -1,8 +1,11 @@
 package com.easy.kotlin.chapter11_kotlin_springboot.dao
 
 import com.easy.kotlin.chapter11_kotlin_springboot.entity.Image
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.PagingAndSortingRepository
+import org.springframework.data.repository.query.Param
 
 /**
  * Created by jack on 2017/7/17.
@@ -27,4 +30,7 @@ interface ImageRepository : PagingAndSortingRepository<Image, Long> {
 
     @Query("select count(*) from #{#entityName} a where a.url = ?1")
     fun countByUrl(url: String): Int
+
+    @Query("SELECT a from #{#entityName} a where a.category like :searchText")
+    fun search(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
 }

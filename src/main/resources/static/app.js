@@ -1,5 +1,7 @@
 $(function () {
 
+    var searchText = $('.search').find('input').val()
+
     $('#baiduBtn').on('click', function () {
         var wd = $('#wd').val()
         window.open("https://www.baidu.com/s?wd=" + wd)
@@ -37,7 +39,7 @@ $(function () {
     $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['zh-CN']);
 
     $('#meituTable').bootstrapTable({
-        url: 'wotuJson',
+        url: 'wotuSearchJson',
         sidePagination: "server",
         queryParamsType: 'page,size',
         contentType: "application/x-www-form-urlencoded",
@@ -51,7 +53,12 @@ $(function () {
         paginationDetailHAlign: 'left', //right, left
         paginationPreText: ' 上一页',
         paginationNextText: '下一页',
-        search: false,
+        search: true,
+        searchText : searchText,
+        searchTimeOut: 500,
+        searchAlign: 'right',
+        searchOnEnterKey: false,
+        trimOnSearch: true,
         sortable: true,    //是否启用排序
         sortOrder: "desc",   //排序方式
         sortName: "id",
@@ -66,7 +73,8 @@ $(function () {
                 size: params.pageSize,
                 page: params.pageNumber,
                 sortName: params.sortName,
-                sortOrder: params.sortOrder
+                sortOrder: params.sortOrder,
+                searchText: params.searchText
             }
         },
         classes: 'table table-responsive full-width',

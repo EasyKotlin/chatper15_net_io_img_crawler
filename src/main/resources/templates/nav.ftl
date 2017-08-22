@@ -25,12 +25,12 @@
                     <a class="nav-link" href="#">关于</a>
                 </li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">搜索</button>
-            </form>
+            <#--<form class="navbar-form navbar-left" role="search">-->
+                <#--<div class="form-group" id="search">-->
+                    <#--<input type="text" class="form-control" placeholder="Search">-->
+                <#--</div>-->
+                <#--<button type="submit" class="btn btn-default">搜索</button>-->
+            <#--</form>-->
         </div>
     </div>
 </nav>

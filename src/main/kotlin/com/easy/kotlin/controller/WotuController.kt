@@ -31,6 +31,14 @@ class WotuController {
         return getPageResult(page, size)
     }
 
+    @RequestMapping(value = "wotuSearchJson", method = arrayOf(RequestMethod.GET))
+    @ResponseBody
+    fun wotuSearchJson(@RequestParam(value = "page", defaultValue = "0") page: Int,
+                       @RequestParam(value = "size", defaultValue = "10") size: Int,
+                       @RequestParam(value = "searchText", defaultValue = "") searchText: String): Page<Image>? {
+        return getPageResult(page, size, searchText)
+    }
+
     @RequestMapping(value = *arrayOf("", "/", "wotuView"), method = arrayOf(RequestMethod.GET))
     fun wotuView(@RequestParam(value = "page", defaultValue = "0", required = false) page: Int,
                  @RequestParam(value = "size", defaultValue = "10", required = false) size: Int,
@@ -50,6 +58,16 @@ class WotuController {
         val sort = Sort(Sort.Direction.DESC, "id")
         val pageable = PageRequest(page, size, sort)
         return imageRepository?.findAll(pageable)
+    }
+
+    private fun getPageResult(page: Int, size: Int, searchText: String): Page<Image>? {
+        val sort = Sort(Sort.Direction.DESC, "id")
+        val pageable = PageRequest(page, size, sort)
+        if(searchText==""){
+            return imageRepository?.findAll(pageable)
+        }else{
+            return imageRepository?.search(searchText, pageable)
+        }
     }
 
 }
