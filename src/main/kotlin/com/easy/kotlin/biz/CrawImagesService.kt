@@ -33,7 +33,7 @@ class CrawImagesService {
 
     fun writeBaiduImgUrlsToDB(word: String) {
         var pn = 30
-        for (i in 1..30) {
+        for (i in 1..10) {
             val imgUrlQuery = "http://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord=${word}&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=&z=3&ic=&word=${word}&s=&se=&tab=&width=0&height=0&face=&istype=&qc=&nc=&fr=&pn=${pn}&rn=30&gsm=b4&1501086462487="
             println("关键字：${word}")
             println("imgUrlQuery=${imgUrlQuery}")
