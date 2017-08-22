@@ -31,6 +31,6 @@ interface ImageRepository : PagingAndSortingRepository<Image, Long> {
     @Query("select count(*) from #{#entityName} a where a.url = ?1")
     fun countByUrl(url: String): Int
 
-    @Query("SELECT a from #{#entityName} a where a.category like :searchText")
+    @Query("SELECT a from #{#entityName} a where a.category like %:searchText%")
     fun search(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
 }
