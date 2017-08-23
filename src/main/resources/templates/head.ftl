@@ -9,6 +9,7 @@
     <link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
     <link href="bower_components/bootstrap-table/src/bootstrap-table.css" rel="stylesheet">
     <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="bower_components/pnotify/src/pnotify.css" rel="stylesheet">
     <link href="app.css" rel="stylesheet">
 </head>
 <body>

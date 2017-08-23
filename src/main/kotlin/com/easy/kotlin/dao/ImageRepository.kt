@@ -30,20 +30,27 @@ interface ImageRepository : PagingAndSortingRepository<Image, Long> {
     @Query("select count(*) from #{#entityName} a where a.url = ?1")
     fun countByUrl(url: String): Int
 
-    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.category like %:searchText% order by a.gmtModified desc")
+    /**源数据列表*/
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 order by a.id desc")
+    override fun findAll(pageable: Pageable): Page<Image>
+
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.category like %:searchText% order by a.id desc")
     fun search(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
 
+    /**收藏列表*/
     @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.isFavorite=1 order by a.gmtModified desc")
     fun findAllFavorite(pageable: Pageable): Page<Image>
 
     @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.isFavorite=1 and a.category like %:searchText% order by a.gmtModified desc")
     fun searchFavorite(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
 
+    @Throws(Exception::class)
     @Modifying
     @Transactional
     @Query("update #{#entityName} a set a.isFavorite=1,a.gmtModified=now() where a.id=?1")
     fun addFavorite(id: Long)
 
+    @Throws(Exception::class)
     @Modifying
     @Transactional
     @Query("update #{#entityName} a set a.isDeleted=1 where a.id=?1")

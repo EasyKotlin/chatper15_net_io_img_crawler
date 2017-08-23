@@ -6,11 +6,23 @@ function addFavorite(id) {
         type: 'post',
         success: function (resp) {
             // alert(JSON.stringify(resp))
-            $('#meituFavoriteTable').bootstrapTable('refresh')
-            $('#meituTable').bootstrapTable('refresh')
+            new PNotify({
+                title: '收藏操作',
+                styling : 'bootstrap3',
+                text: JSON.stringify(resp),
+                type: 'success',
+                delay:500,
+            });
         },
         error: function (msg) {
-            alert(JSON.stringify(msg))
+            // alert(JSON.stringify(msg))
+            new PNotify({
+                title: '收藏操作',
+                styling : 'bootstrap3',
+                text: JSON.stringify(msg),
+                type: 'error',
+                delay:500,
+            });
         }
     })
 }
@@ -23,11 +35,25 @@ function deleteById(id) {
         type: 'post',
         success: function (resp) {
             // alert(JSON.stringify(resp))
+            new PNotify({
+                title: '删除操作',
+                styling : 'bootstrap3',
+                text: JSON.stringify(resp),
+                type: 'success',
+                delay:500,
+            });
             $('#meituFavoriteTable').bootstrapTable('refresh')
             $('#meituTable').bootstrapTable('refresh')
         },
         error: function (msg) {
-            alert(JSON.stringify(msg))
+            // alert(JSON.stringify(msg))
+            new PNotify({
+                title: '删除操作',
+                styling : 'bootstrap3',
+                text: JSON.stringify(msg),
+                type: 'error',
+                delay:500,
+            });
         }
     })
 }
