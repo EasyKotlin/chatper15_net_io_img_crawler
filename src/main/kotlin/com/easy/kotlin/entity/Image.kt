@@ -11,11 +11,11 @@ class Image {
     @Version
     var version: Long = 0
     var category: String = ""
+    var isFavorite: Int = 0
     var url: String = ""
     var gmtCreated: Date = Date()
     var gmtModified: Date = Date()
     var isDeleted: Int = 0  //1 Yes 0 No
     var deletedDate: Date = Date()
-
 }
 

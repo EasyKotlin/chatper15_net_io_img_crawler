@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
-import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
@@ -20,18 +19,18 @@ import org.springframework.web.servlet.ModelAndView
  */
 
 @Controller
-class WotuController {
+class MeituController {
     @Autowired
     var imageRepository: ImageRepository? = null
 
-    @RequestMapping(value = "wotuJson", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = "meituJson", method = arrayOf(RequestMethod.GET))
     @ResponseBody
     fun wotuJson(@RequestParam(value = "page", defaultValue = "0") page: Int,
                  @RequestParam(value = "size", defaultValue = "10") size: Int): Page<Image>? {
         return getPageResult(page, size)
     }
 
-    @RequestMapping(value = "wotuSearchJson", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = "meituSearchJson", method = arrayOf(RequestMethod.GET))
     @ResponseBody
     fun wotuSearchJson(@RequestParam(value = "page", defaultValue = "0") page: Int,
                        @RequestParam(value = "size", defaultValue = "10") size: Int,
@@ -39,20 +38,23 @@ class WotuController {
         return getPageResult(page, size, searchText)
     }
 
-    @RequestMapping(value = *arrayOf("", "/", "wotuView"), method = arrayOf(RequestMethod.GET))
-    fun wotuView(@RequestParam(value = "page", defaultValue = "0", required = false) page: Int,
-                 @RequestParam(value = "size", defaultValue = "10", required = false) size: Int,
-                 model: Model): ModelAndView {
-        model.addAttribute("pageResult", getPageResult(page, size))
-        return ModelAndView("wotuView")
+    @RequestMapping(value = "meituSearchFavoriteJson", method = arrayOf(RequestMethod.GET))
+    @ResponseBody
+    fun wotuSearchFavoriteJson(@RequestParam(value = "page", defaultValue = "0") page: Int,
+                               @RequestParam(value = "size", defaultValue = "10") size: Int,
+                               @RequestParam(value = "searchText", defaultValue = "") searchText: String): Page<Image>? {
+        return getFavoritePageResult(page, size, searchText)
     }
-
 
     @RequestMapping(value = "meituView", method = arrayOf(RequestMethod.GET))
     fun meituView(): ModelAndView {
         return ModelAndView("meituView")
     }
 
+    @RequestMapping(value = "meituFavoriteView", method = arrayOf(RequestMethod.GET))
+    fun meituFavoriteView(): ModelAndView {
+        return ModelAndView("meituFavoriteView")
+    }
 
     private fun getPageResult(page: Int, size: Int): Page<Image>? {
         val sort = Sort(Sort.Direction.DESC, "id")
@@ -63,10 +65,22 @@ class WotuController {
     private fun getPageResult(page: Int, size: Int, searchText: String): Page<Image>? {
         val sort = Sort(Sort.Direction.DESC, "id")
         val pageable = PageRequest(page, size, sort)
-        if(searchText==""){
+        if (searchText == "") {
             return imageRepository?.findAll(pageable)
-        }else{
+        } else {
             return imageRepository?.search(searchText, pageable)
+        }
+    }
+
+    private fun getFavoritePageResult(page: Int, size: Int, searchText: String): Page<Image>? {
+        val sort = Sort(Sort.Direction.DESC, "id")
+        val pageable = PageRequest(page, size, sort)
+        if (searchText == "") {
+            val allFavorite = imageRepository?.findAllFavorite(pageable)
+            return allFavorite
+        } else {
+            val searchFavorite = imageRepository?.searchFavorite(searchText, pageable)
+            return searchFavorite
         }
     }
 

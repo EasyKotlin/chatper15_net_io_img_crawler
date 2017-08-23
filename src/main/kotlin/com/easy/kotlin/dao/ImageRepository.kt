@@ -7,11 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.data.repository.query.Param
 
-/**
- * Created by jack on 2017/7/17.
- *
- *
-
+/** Created by jack on 2017/7/17.
 
 @Query注解里面的value和nativeQuery=true,意思是使用原生的sql查询语句.
 sql模糊查询like语法,我们在写sql的时候是这样写的
@@ -25,12 +21,19 @@ like %?1%
  */
 
 interface ImageRepository : PagingAndSortingRepository<Image, Long> {
-    @Query("SELECT a from #{#entityName} a where a.category like %?1%")
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.category like %?1%")
     fun findByCategory(category: String): MutableList<Image>
 
-    @Query("select count(*) from #{#entityName} a where a.url = ?1")
+    @Query("select count(*) from #{#entityName} a where a.isDeleted=0 and a.url = ?1")
     fun countByUrl(url: String): Int
 
-    @Query("SELECT a from #{#entityName} a where a.category like %:searchText%")
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.category like %:searchText%")
     fun search(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
+
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.isFavorite=1")
+    fun findAllFavorite(pageable: Pageable): Page<Image>
+
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.isFavorite=1 and a.category like %:searchText%")
+    fun searchFavorite(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
+
 }
