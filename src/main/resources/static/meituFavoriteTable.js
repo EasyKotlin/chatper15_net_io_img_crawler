@@ -1,8 +1,9 @@
 $(function () {
+    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['zh-CN'])
 
     var searchText = $('.search').find('input').val()
 
-    var columns = [];
+    var columns = []
 
     columns.push({
         title: '分类',
@@ -18,11 +19,20 @@ $(function () {
         align: 'center',
         valign: 'middle',
         formatter: function (value, row, index) {
-            return "<img width='100%' src='" + value + "'>"
+            return "<img onclick=downloadImage('" + value + "') width='100%' src='" + value + "'>"
+        }
+    }, {
+        title: ' 操作',
+        field: 'id',
+        align: 'center',
+        formatter: function (value, row, index) {
+            var html = ""
+            html += "<div onclick='addFavorite(" + value + ")' name='addFavorite' id='addFavorite" + value + "' class='btn btn-default'>收藏</div><p>"
+            html += "<div onclick='deleteById(" + value + ")' name='delete' id='delete" + value + "' class='btn btn-default'>删除</div>"
+            return html
         }
     })
 
-    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['zh-CN']);
 
     $('#meituFavoriteTable').bootstrapTable({
         url: 'meituSearchFavoriteJson',

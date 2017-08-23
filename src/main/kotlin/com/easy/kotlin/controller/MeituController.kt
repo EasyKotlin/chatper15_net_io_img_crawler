@@ -7,11 +7,13 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
+import javax.servlet.http.HttpServletRequest
 
 
 /**
@@ -47,12 +49,14 @@ class MeituController {
     }
 
     @RequestMapping(value = "meituView", method = arrayOf(RequestMethod.GET))
-    fun meituView(): ModelAndView {
+    fun meituView(model: Model, request: HttpServletRequest): ModelAndView {
+        model.addAttribute("requestURI" , request.requestURI)
         return ModelAndView("meituView")
     }
 
     @RequestMapping(value = "meituFavoriteView", method = arrayOf(RequestMethod.GET))
-    fun meituFavoriteView(): ModelAndView {
+    fun meituFavoriteView(model: Model, request: HttpServletRequest): ModelAndView {
+        model.addAttribute("requestURI" , request.requestURI)
         return ModelAndView("meituFavoriteView")
     }
 
@@ -64,6 +68,7 @@ class MeituController {
 
     private fun getPageResult(page: Int, size: Int, searchText: String): Page<Image>? {
         val sort = Sort(Sort.Direction.DESC, "id")
+        // 注意：PageRequest page 默认是从0开始
         val pageable = PageRequest(page, size, sort)
         if (searchText == "") {
             return imageRepository?.findAll(pageable)
@@ -82,6 +87,20 @@ class MeituController {
             val searchFavorite = imageRepository?.searchFavorite(searchText, pageable)
             return searchFavorite
         }
+    }
+
+    @RequestMapping(value = "addFavorite", method = arrayOf(RequestMethod.POST))
+    @ResponseBody
+    fun addFavorite(@RequestParam(value = "id") id: Long): Boolean {
+        imageRepository!!.addFavorite(id)
+        return true
+    }
+
+    @RequestMapping(value = "delete", method = arrayOf(RequestMethod.POST))
+    @ResponseBody
+    fun delete(@RequestParam(value = "id") id: Long): Boolean {
+        imageRepository!!.delete(id)
+        return true
     }
 
 }
