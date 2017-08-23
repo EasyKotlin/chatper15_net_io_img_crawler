@@ -58,16 +58,16 @@ $(function () {
         sortable: true,    //是否启用排序
         sortOrder: "desc",   //排序方式
         sortName: "id",
-        pageNumber: 0,     //初始化加载第一页，默认第一页
+        pageNumber: 1,     //初始化加载第一页，默认第一页
         pageSize: 10,      //每页的记录行数（*）
-        pageList: [5, 10, 20, 50, 100], // 可选的每页数据
-        totalField: 'totalPages',
+        pageList: [8, 16, 32, 64, 128], // 可选的每页数据
+        totalField: 'totalElements',
         dataField: 'content', //后端 json 对应的表格数据 key
         columns: columns,
         queryParams: function (params) {
             return {
                 size: params.pageSize,
-                page: params.pageNumber,
+                page: params.pageNumber-1,
                 sortName: params.sortName,
                 sortOrder: params.sortOrder,
                 searchText: params.searchText
