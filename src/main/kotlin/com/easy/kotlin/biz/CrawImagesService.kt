@@ -6,6 +6,7 @@ import com.easy.kotlin.百度搜索关键词列表
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.File
@@ -18,6 +19,7 @@ import java.util.*
  */
 @Service
 class CrawImagesService {
+    val logger = LoggerFactory.getLogger(CrawImagesService::class.java)
     @Autowired val ImageRepository: ImageRepository? = null
 
     fun doCraw() = runBlocking {
@@ -53,6 +55,7 @@ class CrawImagesService {
                         image.category = word
                         image.url = imgUrl
                         if (ImageRepository?.countByUrl(imgUrl)!! < 1) {
+                            logger.info("image {}", image)
                             ImageRepository?.save(image)
                         }
                     }
@@ -86,6 +89,7 @@ class CrawImagesService {
                         image.category = category
                         image.url = imgUrl
                         if (ImageRepository?.countByUrl(imgUrl)!! < 1) {
+
                             ImageRepository?.save(image)
                         }
                     }

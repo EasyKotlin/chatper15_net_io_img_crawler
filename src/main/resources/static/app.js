@@ -41,7 +41,7 @@ function deleteById(id) {
                 title: '删除操作',
                 styling: 'bootstrap3',
                 text: JSON.stringify(resp),
-                type: 'success',
+                type: 'info',
                 delay: 500,
             });
 

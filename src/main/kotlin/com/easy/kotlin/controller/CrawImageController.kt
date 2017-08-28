@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 @Controller
 class CrawImageController {
 
-    @Autowired val CrawImagesService: CrawImagesService? = null
+    @Autowired var CrawImagesService: CrawImagesService? = null
 
     @GetMapping("doCraw")
     @ResponseBody
